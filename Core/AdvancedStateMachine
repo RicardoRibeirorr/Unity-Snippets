@@ -1,0 +1,68 @@
+ /**
+ * Advanced State machine system
+ * Includes multiplayer state updater
+ * 
+ * @author Ricardo Ribeiro - Fantasy2DRPG 
+ * @url: https://github.com/RicardoRibeirorr/Unity-Snippets
+ * 
+ **/
+
+using System;
+using System.Collections.Generic;
+
+public class StateMachine
+{
+    public interface IState
+    {
+        void OnEnter();
+        void OnExit();
+        void OnUpdate(float deltaTime);
+    }
+
+    public event Action<StateMachine> OnChanged;
+
+    public IState CurrentState { get; private set; }
+    public IState PreviousState { get; private set; }
+
+    private readonly Dictionary<Type, IState> states = new();
+
+    public void Register<T>(IState instance) where T : IState
+    {
+        states[typeof(T)] = instance;
+    }
+
+    public void Change<T>() where T : IState
+    {
+        if (CurrentState is T)
+            return;
+
+        if (!states.TryGetValue(typeof(T), out var newState))
+            throw new KeyNotFoundException($"State {typeof(T)} not registered.");
+
+        PreviousState = CurrentState;
+        CurrentState?.OnExit();
+        CurrentState = newState;
+        CurrentState.OnEnter();
+        OnChanged?.Invoke(this);
+    }
+
+    public bool IsIn<T>() where T : IState => CurrentState is T;
+
+    public void Update(float deltaTime)
+    {
+        CurrentState?.OnUpdate(deltaTime);
+    }
+
+    // For multiplayer (external force from server)
+    public void ForceChange(Type stateType)
+    {
+        if (!states.TryGetValue(stateType, out var newState))
+            throw new KeyNotFoundException($"State {stateType} not registered.");
+
+        PreviousState = CurrentState;
+        CurrentState?.OnExit();
+        CurrentState = newState;
+        CurrentState.OnEnter();
+        OnChanged?.Invoke(this);
+    }
+}
