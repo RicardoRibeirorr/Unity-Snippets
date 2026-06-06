@@ -1,8 +1,8 @@
 Disables the GUI for the decorated property in the Unity Inspector.
 
 # IMPORT
-File **DisableAttributeDrawer.cs** should be inside of **Assets/Editor**. You put inside any forder or non, but requires to be inside of **Editor** folder by Unity requirements.
-File **DisableAttribute.cs** can be inside any folder inside **Assets** but it **CANNOT** be inside of a folder names **Editor**
+File **DisabledAttributeDrawer.cs** should be inside of **Assets/Editor**. You put inside any forder or non, but requires to be inside of **Editor** folder by Unity requirements.
+File **DisabledAttribute.cs** can be inside any folder inside **Assets** but it **CANNOT** be inside of a folder names **Editor**
 
 # USAGE
 ```csharp
