@@ -3,7 +3,7 @@ using UnityEngine;
 
 /*******************************************************
  * 
- *  File:       DisableAttribute.cs
+ *  File:       DisabledAttribute.cs
  *  Description: Disables the GUI for the decorated property in the Unity Inspector.
  *  
  *  Folder:     Assets/Scripts/<any folder except Editor>
@@ -11,6 +11,6 @@ using UnityEngine;
  *  Author:     RicardoRibeiroRR
  *  
  *******************************************************/
-public class DisableAttribute : PropertyAttribute
+public class DisabledAttribute : PropertyAttribute
 {
 }
